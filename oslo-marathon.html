@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interval calculator</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <h1 class="sr-only">Oslo Half Pacer</h1>
+    <label>Enter your desired half marathon pace:
+        <input type="text" id="desiredTime" placeholder="hh:mm:ss">
+    </label>
+    <button id="submithalf" type="submit">Submit</button>
+    <table id="splitTable">
+        <thead>
+            <tr>
+                <th>Kilometer</th>
+                <th>Split Time (per km)</th>
+                <th>Cumulative Time</th>
+            </tr>
+        </thead>
+    </table>
+</body>
+<script src="oslo-marathon.js"></script>
+</html>
