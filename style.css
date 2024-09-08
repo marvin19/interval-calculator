@@ -10,6 +10,10 @@ h1 {
     color: #ff69b4; /* Hot pink */
 }
 
+h2 {
+    color: #ff69b4; /* Hot pink */
+}
+
 label {
     font-size: 18px;
     margin-right: 10px;
@@ -69,4 +73,8 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #e9e9e9;
+}
+
+#summary span {
+    font-weight: 700;
 }

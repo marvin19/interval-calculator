@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Half marathon distance in kilometers
         const totalDistance = 21.0975;
 
-        console.log(totalSeconds, totalDistance);
         // Calculate pace per kilometer in seconds
         const pacePerKm = totalSeconds / totalDistance;
 
@@ -33,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         for (let km = 1; km <= 21; km++) {
             cumulativeTime += pacePerKm;
+
             const splitTime = formatTime(pacePerKm, false);
             const cumulativeFormatted = formatTime(cumulativeTime, true);
 
@@ -53,25 +53,47 @@ document.addEventListener('DOMContentLoaded', function () {
             splitTableBody.innerHTML += row;
         };
 
+        // Add last row to talbe (0.0975 km)
+        const partialDistance = 0.0975;
+        const finalSplitTime = pacePerKm * partialDistance;
+        cumulativeTime += finalSplitTime;
+        //const finalFormattedSplit = formatTime(finalSplitTime, false);
+        const finalCumulativeFormatted = formatTime(cumulativeTime, true);
+        const averagePaceLastSplit = formatTime(pacePerKm, false);
+        
+
+        const finalRow = `<tr>
+            <td>${partialDistance.toFixed(3)}</td>
+            <td>${averagePaceLastSplit}</td>
+            <td>${finalCumulativeFormatted}</td>
+        `;
+
+        splitTableBody.innerHTML += finalRow;
+
         summaryDiv.innerHTML = `
             <h2>Summary</h2>
-            <p>5K: ${summary['5K']}</p>
-            <p>10K: ${summary['10K']}</p>
-            <p>15K: ${summary['15K']}</p>
-            <p>20K: ${summary['20K']}</p>
-            <p>Race Time: ${summary['race']}</p>
+            <p><span>5 km:</span> ${summary['5K']}</p>
+            <p><span>10 km:</span> ${summary['10K']}</p>
+            <p><span>15 km:</span> ${summary['15K']}</p>
+            <p><span>20 km: </span>${summary['20K']}</p>
+            <p><span>Halvmaraton: </span>${summary['race']}</p>
         `;
 
         function formatTime(seconds, includeHours) {
             const h = Math.floor(seconds / 3600);
-            const m = Math.floor(seconds % 3600 / 60);
+            const m = Math.floor((seconds % 3600) / 60);
             const s = Math.floor(seconds % 3600 % 60);
+
+            // Double digits for minutes and seconds
+            const paddedM = m.toString().padStart(2, '0');
+            const paddedS = s.toString().padStart(2, '0');
+
             if (includeHours) {
                 // cumulative time
-                return `${h}:${m}:${s}`;
+                return `${h}:${paddedM}:${paddedS}`;
             } else {
                 // pace per kilometer
-                return `${m}:${s} /km`;
+                return `${paddedM}:${paddedS} /km`;
         }
         }
     }
