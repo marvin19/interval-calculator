@@ -9,14 +9,27 @@
 </head>
 <body>
     <h1 class="sr-only">Oslo Half Pacer</h1>
-    <div class="submit-pace">
+    <div class="submit-pace m-20">
         <label>Enter your desired half marathon pace:
             <input type="text" id="desiredTime" placeholder="hh:mm:ss">
         </label>
         <button id="submithalf" type="submit">Submit</button>
     </div>
+
+    <div class="instruction-box m-20">
+        <h2>Instructions</h2>
+        <p>Use the buttons below to adjust your race strategy. You can choose between
+            negative pslits, positive splits, or an even pace. The percentage indiciates 
+            how much faster or slower you will be running at the beginning or the end of your race.
+        </p>
+        <p>
+            If you check the "I want to edit each split manually" checkbox, the calculation of the 
+            desired total time (e.g., 1:30:00) will no longer be valid and is only used as a starting 
+            point for pace calculation. The result in the table or the summary will reflect your final time.
+        </p>
+    </div>
     
-    <div class="split-buttons">
+    <div class="split-buttons m-20">
         <button id="n5">Negative 5%</button>
         <button id="n3">Negative 3%</button>
         <button id="n1">Negative 1%</button>
