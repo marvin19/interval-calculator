@@ -43,6 +43,17 @@ button:hover {
     background-color: #ff82c8; /* Slightly lighter hot pink */
 }
 
+button:active {
+    background-color: #ff5094;
+    transform: scale(0.98);
+}
+
+button.active {
+    background-color: #ff5094;
+    border: 2px solid #ff82c8;
+    transform: scale(1);
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -77,4 +88,8 @@ tr:hover {
 
 #summary span {
     font-weight: 700;
+}
+
+.submit-pace {
+    margin-bottom: 20px;
 }

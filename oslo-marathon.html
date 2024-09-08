@@ -9,10 +9,24 @@
 </head>
 <body>
     <h1 class="sr-only">Oslo Half Pacer</h1>
-    <label>Enter your desired half marathon pace:
-        <input type="text" id="desiredTime" placeholder="hh:mm:ss">
-    </label>
-    <button id="submithalf" type="submit">Submit</button>
+    <div class="submit-pace">
+        <label>Enter your desired half marathon pace:
+            <input type="text" id="desiredTime" placeholder="hh:mm:ss">
+        </label>
+        <button id="submithalf" type="submit">Submit</button>
+    </div>
+    
+    <div class="split-buttons">
+        <button id="n5">Negative 5%</button>
+        <button id="n3">Negative 3%</button>
+        <button id="n1">Negative 1%</button>
+        <button id="default">Even</button>
+        <button id="p1">Positive 1%</button>
+        <button id="p3">Positive 3%</button>
+        <button id="p5">Positive 5%</button>
+        <input type="checkbox" id="manual">
+        <label for="manual">I want to edit each split manually</label>
+    </div>
     <table id="splitTable">
         <thead>
             <tr>
