@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interval calculator</title>
     <link rel="stylesheet" href="style.css">
-
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
     <h1 class="sr-only">Oslo Half Pacer</h1>
@@ -44,6 +44,9 @@
         <thead>
             <tr>
                 <th>Kilometer</th>
+                <th>Elevation Profile</th>
+                <th>Elevation up (m)</th>
+                <th>Elevation down (m)</th>
                 <th>Split Time (per km)</th>
                 <th>Cumulative Time</th>
             </tr>
@@ -51,7 +54,9 @@
         <tbody>
         </tbody>
     </table>
-    <div id="summary" class="summary"></div>
+    <div id="summary" class="summary">
+    </div>
+    <div id="chart-container"></div>
 </body>
 <script src="oslo-marathon.js"></script>
 </html>
