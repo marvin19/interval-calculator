@@ -735,8 +735,15 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 const manualChecked = document.getElementById('manual');
 const headerRow = document.getElementById('headerRow');
+let manualPaceInput;
 
 manualChecked.addEventListener('change', function () {
-    let manualPaceInput = headerRow.appendChild(document.createElement('th'));
-    manualPaceInput.innerHTML = 'Change pace manually';
+    if(manualChecked.checked) {
+        manualPaceInput = document.createElement('th');
+        manualPaceInput.innerHTML = 'Change pace manually';
+        headerRow.appendChild(manualPaceInput);
+    } else {
+        manualPaceInput.remove();
+        manualPaceInput = null; // Clear the reference
+    }
 });
