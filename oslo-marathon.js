@@ -612,7 +612,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Add new row to the table
                 const row = `<tr>
                     <td>${i}</td>
-                    <td>${currentPoint.altitude.toFixed(2)} m</td>
+                    <td><div></div></td>
                     <td>${splitTime}</td>
                     <td>${cumulativeFormatted}</td>
                 </tr>`;
