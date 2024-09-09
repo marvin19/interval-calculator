@@ -731,3 +731,12 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
     return R * c; // Distance in meters
 }
+
+
+const manualChecked = document.getElementById('manual');
+const headerRow = document.getElementById('headerRow');
+
+manualChecked.addEventListener('change', function () {
+    let manualPaceInput = headerRow.appendChild(document.createElement('th'));
+    manualPaceInput.innerHTML = 'Change pace manually';
+});
