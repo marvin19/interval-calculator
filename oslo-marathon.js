@@ -615,6 +615,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td><div></div></td>
                     <td>${splitTime}</td>
                     <td>${cumulativeFormatted}</td>
+                    ${manualChecked.checked? '<td><label>M:<input type="number" /></label><label>S: <input type="number" /></label>' : ''}
                 </tr>`;
                 splitTableBody.innerHTML += row;
             }
