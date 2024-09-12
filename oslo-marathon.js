@@ -616,8 +616,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <td>${splitTime}</td>
                                 <td>${cumulativeFormatted}</td>
                                 ${manualChecked.checked? 
-                                    `<td><label>M:<input id="minute-${i}" type="number" value="${Math.floor(normalizedPace / 60)}" /></label>
-                                    <label>S: <input id="seconds-${i}" type="number" value="${Math.floor(normalizedPace % 60)}" /></label></td>` 
+                                    `<td><label>Minutes: <input id="minute-${i}" type="number" value="${Math.floor(normalizedPace / 60)}" /></label>
+                                    <label>Seconds: <input id="seconds-${i}" type="number" value="${Math.floor(normalizedPace % 60)}" /></label></td>` 
                                     : ''}
                             </tr>`;
                             splitTableBody.innerHTML += row;
