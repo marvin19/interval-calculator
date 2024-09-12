@@ -610,10 +610,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (i === 21) summary['race'] = cumulativeFormatted;
     
                 // Add new row to the table
+                const [splitMinute, splitSecond] = splitTime.split(':');
                 const row = `<tr>
                                 <td>${i}</td>
                                 <td><div></div></td>
-                                <td>${splitTime}</td>
+                                <td><span id="minute-split-${i}">${splitMinute}</span>:<span id="seconds-split-${i}">${splitSecond}</span> /km</td>
                                 <td>${cumulativeFormatted}</td>
                                 ${manualChecked.checked? 
                                     `<td><label>Minutes: <input id="minute-${i}" type="number" value="${Math.floor(normalizedPace / 60)}" /></label>
@@ -687,13 +688,56 @@ document.addEventListener('DOMContentLoaded', function () {
         if (includeHours) {
             return `${h}:${paddedM}:${paddedS}`;
         } else {
-            return `${paddedM}:${paddedS} /km`;
+            return `${paddedM}:${paddedS}`;
         }
     }
 
     // Event listener for the submit button
     submithalf.addEventListener('click', function () {
         calculateSplits(); // Calculate even splits on initial submit
+
+        function updateContent(event) {
+            // Get the id of the input field that triggered the event (e.g., "minute-1" or "seconds-1")
+            const inputId = event.target.id;
+            
+            // Extract the numeric part from the input id
+            const idNumber = inputId.split('-')[1];
+            
+            // Determine if the input is for minutes or seconds
+            const isMinuteInput = inputId.startsWith('minute');
+            const isSecondInput = inputId.startsWith('seconds');
+            
+            // Find the matching target element
+            const targetMinute = document.getElementById(`minute-split-${idNumber}`);
+            const targetSecond = document.getElementById(`seconds-split-${idNumber}`);
+            
+            // Update the target cell's text content with the input value
+            let inputValue = parseInt(event.target.value) || 0; // Use 0 if the field is empty
+        
+            if (isMinuteInput) {
+                // Ensure minutes are between 2 and 12
+                if (inputValue < 2) inputValue = 2;
+                if (inputValue > 12) inputValue = 12;
+                // Add leading zero for values between 2 and 9
+                const formattedMinutes = inputValue < 10 ? `0${inputValue}` : `${inputValue}`;
+                targetMinute.textContent = formattedMinutes;
+            } else if (isSecondInput) {
+                // Ensure seconds are between 0 and 60
+                if (inputValue < 0) inputValue = 0;
+                if (inputValue > 60) inputValue = 60;
+                // Add leading zero for values less than 10
+                const formattedSeconds = inputValue < 10 ? `0${inputValue}` : `${inputValue}`;
+                targetSecond.textContent = formattedSeconds;
+            }
+        }
+        
+        // Attach event listeners to all input fields
+        for (let i = 1; i <= 21; i++) {
+            const inputMinutes = document.getElementById(`minute-${i}`);
+            const inputSeconds = document.getElementById(`seconds-${i}`);
+            inputMinutes.addEventListener('input', updateContent);
+            inputSeconds.addEventListener('input', updateContent);
+        }
     });
 
     // Event listeners for each percentage button
@@ -718,6 +762,7 @@ document.addEventListener('DOMContentLoaded', function () {
             calculateSplits();
         });
     });
+
 });
 
 // Function to calculate distance between two points (Haversine formula)

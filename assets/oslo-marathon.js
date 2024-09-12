@@ -1,4 +1,4 @@
-const trackPoints = [
+export const trackPoints = [
     { lat: 59.911614093, lon: 10.733292590, altitude: 3.8 },
     { lat: 59.911673677, lon: 10.733014053, altitude: 3.9 },
     { lat: 59.912030000, lon: 10.731450000, altitude: 4.1 },
