@@ -630,13 +630,18 @@ document.addEventListener('DOMContentLoaded', function () {
         normalizedCumulativeTime += normalizedFinalSplit;
         const finalCumulativeFormatted = formatTime(normalizedCumulativeTime, true);
         const averagePaceLastSplit = formatTime(paces[21] * normalizationFactor / finalDistance, false);
-    
+
+        // Add the last fractional row (0.0975 km) to the table
         const finalRow = `<tr>
             <td>${finalDistance.toFixed(3)}</td>
             <td>Last Elevation</td>
-            <td>${averagePaceLastSplit}</td>
+            <td><span id="minute-split-22">${averagePaceLastSplit.split(':')[0]}</span>:<span id="seconds-split-22">${averagePaceLastSplit.split(':')[1]}</span> /km</td>
             <td>${finalCumulativeFormatted}</td>
-        `;
+            ${manualChecked.checked? 
+                `<td><label>Minutes: <input id="minute-22" type="number" value="${Math.floor(normalizedFinalSplit / 60)}" /></label>
+                <label>Seconds: <input id="seconds-22" type="number" value="${Math.floor(normalizedFinalSplit % 60)}" /></label></td>` 
+                : ''}
+        </tr>`;
         splitTableBody.innerHTML += finalRow;
     
         // Update summary
@@ -680,15 +685,41 @@ document.addEventListener('DOMContentLoaded', function () {
         const h = Math.floor(seconds / 3600);
         const m = Math.floor((seconds % 3600) / 60);
         const s = Math.floor(seconds % 60);
-
-        // Ensure two digits for minutes and seconds
+    
+        // Pad minutes and seconds with leading zero if necessary
         const paddedM = m.toString().padStart(2, '0');
         const paddedS = s.toString().padStart(2, '0');
-
+    
         if (includeHours) {
             return `${h}:${paddedM}:${paddedS}`;
         } else {
             return `${paddedM}:${paddedS}`;
+        }
+    }
+
+    function recalculateCumulativeTimes() {
+        let cumulativeTime = 0;
+    
+        // Loop through all splits (kilometer rows), including the final 0.0975 km row
+        for (let i = 1; i <= 22; i++) { // Notice the range now includes 22
+            // Retrieve the updated minutes and seconds from the input fields
+            const inputMinutes = parseInt(document.getElementById(`minute-${i}`).value) || 0;
+            const inputSeconds = parseInt(document.getElementById(`seconds-${i}`).value) || 0;
+    
+            // Convert the minutes and seconds to total seconds for this split
+            const splitTimeInSeconds = (inputMinutes * 60) + inputSeconds;
+    
+            // Add the split time to the cumulative time
+            cumulativeTime += splitTimeInSeconds;
+    
+            // Format the cumulative time as hh:mm:ss or mm:ss
+            const cumulativeFormatted = formatTime(cumulativeTime, true);
+    
+            // Update the cumulative time in the table (find the appropriate cell for the cumulative time)
+            const cumulativeCell = document.querySelector(`#splitTable tr:nth-child(${i}) td:nth-child(4)`); // Adjust column index if needed
+            if (cumulativeCell) {
+                cumulativeCell.textContent = cumulativeFormatted;
+            }
         }
     }
 
@@ -700,37 +731,38 @@ document.addEventListener('DOMContentLoaded', function () {
             // Get the id of the input field that triggered the event (e.g., "minute-1" or "seconds-1")
             const inputId = event.target.id;
             
-            // Extract the numeric part from the input id
+            // Extract the numeric part from the input id (split number)
             const idNumber = inputId.split('-')[1];
             
             // Determine if the input is for minutes or seconds
             const isMinuteInput = inputId.startsWith('minute');
             const isSecondInput = inputId.startsWith('seconds');
             
-            // Find the matching target element
+            // Find the corresponding minute and second elements
             const targetMinute = document.getElementById(`minute-split-${idNumber}`);
             const targetSecond = document.getElementById(`seconds-split-${idNumber}`);
             
-            // Update the target cell's text content with the input value
-            let inputValue = parseInt(event.target.value) || 0; // Use 0 if the field is empty
-        
+            // Update the target split time cell's text content
+            let inputValue = parseInt(event.target.value) || 0; // Default to 0 if the field is empty
+            
             if (isMinuteInput) {
-                // Ensure minutes are between 2 and 12
+                // Ensure minutes are in a reasonable range, e.g., 2 to 12 minutes per km
                 if (inputValue < 2) inputValue = 2;
                 if (inputValue > 12) inputValue = 12;
-                // Add leading zero for values between 2 and 9
                 const formattedMinutes = inputValue < 10 ? `0${inputValue}` : `${inputValue}`;
                 targetMinute.textContent = formattedMinutes;
             } else if (isSecondInput) {
-                // Ensure seconds are between 0 and 60
+                // Ensure seconds are between 0 and 59
                 if (inputValue < 0) inputValue = 0;
-                if (inputValue > 60) inputValue = 60;
-                // Add leading zero for values less than 10
+                if (inputValue >= 60) inputValue = 59; // We typically wouldn't have 60+ seconds
                 const formattedSeconds = inputValue < 10 ? `0${inputValue}` : `${inputValue}`;
                 targetSecond.textContent = formattedSeconds;
             }
+            
+            // Recalculate cumulative times based on the changes
+            recalculateCumulativeTimes();
         }
-        
+
         // Attach event listeners to all input fields
         for (let i = 1; i <= 21; i++) {
             const inputMinutes = document.getElementById(`minute-${i}`);
