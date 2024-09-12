@@ -611,13 +611,16 @@ document.addEventListener('DOMContentLoaded', function () {
     
                 // Add new row to the table
                 const row = `<tr>
-                    <td>${i}</td>
-                    <td><div></div></td>
-                    <td>${splitTime}</td>
-                    <td>${cumulativeFormatted}</td>
-                    ${manualChecked.checked? '<td><label>M:<input type="number" /></label><label>S: <input type="number" /></label>' : ''}
-                </tr>`;
-                splitTableBody.innerHTML += row;
+                                <td>${i}</td>
+                                <td><div></div></td>
+                                <td>${splitTime}</td>
+                                <td>${cumulativeFormatted}</td>
+                                ${manualChecked.checked? 
+                                    `<td><label>M:<input id="minute-${i}" type="number" value="${Math.floor(normalizedPace / 60)}" /></label>
+                                    <label>S: <input id="seconds-${i}" type="number" value="${Math.floor(normalizedPace % 60)}" /></label></td>` 
+                                    : ''}
+                            </tr>`;
+                            splitTableBody.innerHTML += row;
             }
         }
 
